@@ -15,12 +15,4 @@ public interface UrlEncoder {
 	 * @return the encoded string
 	 */
 	String encode(String arg);
-
-	/**
-	 * Returns the decoded string
-	 * 
-	 * @param arg the string to decode
-	 * @return the encoded string
-	 */
-	String decode(String arg);
 }

@@ -16,14 +16,14 @@ import com.skmproject.urlshortener.util.UrlEncoder;
 import com.skmproject.urlshortener.util.UrlValidator;
 
 @Service
-public class DefaultUrlShortenService implements UrlShortenerService{
-	
+public class DefaultUrlShortenerService implements UrlShortenerService{
+
 	@Autowired
 	private UrlEncoder encoder;
-	
+
 	@Autowired
 	private UrlValidator validator;
-	
+
 	@Autowired
 	private UrlInfoRepository repository;
 
@@ -34,6 +34,10 @@ public class DefaultUrlShortenService implements UrlShortenerService{
 		}
 		if(!url.contains(":")) {
 			url = "http://".concat(url);
+		}
+		Optional<DefaultUrlInfo> optional = repository.findById(url);
+		if(optional.isPresent()) {
+			return optional.get();
 		}
 		String shortenedUrl = encoder.encode(url);
 		WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(UrlResource.class)

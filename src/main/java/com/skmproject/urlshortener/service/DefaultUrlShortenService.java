@@ -36,7 +36,9 @@ public class DefaultUrlShortenService implements UrlShortenerService{
 			url = "http://".concat(url);
 		}
 		String shortenedUrl = encoder.encode(url);
-		WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(UrlResource.class).slash(shortenedUrl);
+		WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(UrlResource.class)
+				.slash("redirect")
+				.slash(shortenedUrl);
 		DefaultUrlInfo info = new DefaultUrlInfo(url,shortenedUrl,linkBuilder.toString());
 		return repository.save(info);
 	}
@@ -44,7 +46,7 @@ public class DefaultUrlShortenService implements UrlShortenerService{
 	@Override
 	public UrlInfo getOrginalUrl(String url) throws UrlNotExistsException {
 		Optional<DefaultUrlInfo> urlInfo = repository.findById(url);
-		return urlInfo.orElseThrow(()-> new UrlNotExistsException("links not found with "+url));
+		return urlInfo.orElseThrow(()-> new UrlNotExistsException("link not found with "+url));
 	}
 
 }
